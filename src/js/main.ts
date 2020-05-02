@@ -1,15 +1,17 @@
-const h1:HTMLElement[] = [...document.querySelectorAll<HTMLElement>('h1')];
-const h1Datas:string[] = [...new Set(h1.map(h => h.dataset.test))];
+const myAsyncFunction = async () => {
+  const response = await fetch('https://hishohub.github.io/practiceAsync/test.json');
+  return await response.json();
+}
 
+const data = myAsyncFunction();
 
-const test:HTMLElement[] = h1.filter(item => {
-  const currentG1DatasIndex:number = h1Datas.indexOf(item.dataset.test);
-  if(currentG1DatasIndex >= 0) {
-    h1Datas.splice(currentG1DatasIndex,1);
-    return item;
-  }
-});
-
-
-console.log(test);
-test.forEach(x => console.log(x.dataset.test));
+const app = document.getElementById('app');
+data.then(value => {
+  console.log(value)
+  value.forEach(x => {
+    app.innerHTML += `
+<h1 style="font-size: 2rem">${x.title}</h1>
+<div style="font-size: 1rem">${x.body}</div>
+`
+  })
+})
